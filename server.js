@@ -13,7 +13,9 @@ const app = express();
 
 // Enable CORS for requests from your frontend
 app.use(cors({
-  origin: 'https://lostnfound-backend.onrender.com/*',
+  origin: 'https://lostnfound-backend.onrender.com',
+  methods: ['GET', 'POST', 'DELETE'], // Allow necessary HTTP methods
+  allowedHeaders: ['Content-Type', 'Authorization'], // Allow necessary headers
 }));
 
 app.use(express.static(path.join(__dirname, 'dist')));
