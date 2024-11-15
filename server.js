@@ -13,8 +13,15 @@ const app = express();
 
 // Enable CORS for requests from your frontend
 app.use(cors({
-  origin: 'http://localhost:5173', 
+  origin: 'http://localhost:5173',
 }));
+
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// Handle frontend routing
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
 
 
 const storage = multer.diskStorage({
@@ -41,13 +48,13 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 app.delete('/delete-image', (req, res) => {
   const imagePath = path.join(__dirname, 'uploads', req.query.filename);
-  
+
   fs.unlink(imagePath, (err) => {
     if (err) {
       console.error('Error deleting image:', err);
       return res.status(500).json({ message: 'Failed to delete image' });
     }
-    res.status(200).json({ message: 'Image deleted successfully' });
+    res.status(200).json({ message: 'Image deleted successfully' });
   });
 });
 
